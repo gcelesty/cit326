@@ -1,0 +1,89 @@
+1.
+a) Show the details of my VM
+	- Machine config = e2-small
+	- Container image = latest mssql image
+	- Boot disk = changed type to "standard"
+b/c) Bring up powershell with the commands
+	- Docker run command with arguements
+	- Docker ps to show running dockers (run this command in the VM on Google SSH)
+	- Show the "klt" (automated) & the one I created and added (interesting_northcutt)
+d) Advantages & Benefits
+	- Portability across machines: you can deploy your containerized program to any other
+		machine that runs Docker
+	- Rapid perforance: since containers do not contain an operating system, they have a 			considereably smaller footprint & are faster to contrust & start then VMs
+	- Lightweight: can aid in making your development process more fluid and responsive
+	- Scalability: can quickly generate new containers and use a variety of container management 		techniques when using multiple containers
+	- Isolation: execute everything on a single piece of hardware
+	- Security: since containers are isolated, the threat is reduced since it is centralized if
+		malware infects
+
+2.
+a) Google VM SSH
+	- Uploaded "pokemon" database
+	- Use command "ls" to ensure that the database was uploaded to the VM
+	- Copy file into docker container where SQL server can see it
+	- Command "docker cp pokemon_george [mydocker]:/home"
+	- "docker cp pokemon_george interesting_northcutt:/home"
+b) MySQL Server
+	- Login: external IP,49433 // sa // Pa55word!
+	- Restore Database
+	- Device -> "..."
+	- Navigate to /home and select pokemon database to restore
+	- "Ok" to restore (takes a little bit of time when restoring it for the first time)
+3.
+a/c) Create 2 schemas with 2 tables
+	- Expand Security to find Schema (IN DATABASE NOT IN THE OVERALL SETTINGS)
+	- Created 2 schemas "pokemonINFO" & "evolutionINFO"
+	- Used the query "alter schema [schema] transfer [table];" to move 2 tables into respective
+		schemas
+b/c) Create 1 login and give them "grant/select rights" on 1 schema
+	- Create new login in the server with default password
+	- Go into user after creation and map it to the correct database & generation schema
+	- Under "Securables" search for "Schemas" and select "generationINFO"
+	- On the "Select" permission check "Grant"
+	- Login into the new user to prove that they only have access to the "generationINFO" schema
+d) Good Security Practice - schemas
+	- Provides more flexibilty and control for managing schemas quickly
+	- Can be easily transferred to another user
+
+4.
+a/b) Reference MySQL for the join
+	- Mixed and matched tables from schemas in the join and then gave access to the new user
+		to view the view but not the additional tables
+c) Show the new user that they can see view and not additional tables outside their schema
+e) Good security practice - views
+	- Provide extra security
+	- Organize talbles to reduce redunancy and dependency
+
+5.
+a-d) Add new database role
+	- Security -> Roles -> New database role
+	- Select pokemonINFO schema, random table, pokemon view
+	- Granted all roles "Select"
+e) Add new user
+	- New user and under User Mapping the role membership is "final_database_role"
+g) Good security practice - role
+	- Reduces the amount of admin work needed to grant & manage security when multiple 				application users require the same access to SQL Server resources
+
+
+6.
+a) Encrypt dbo.abilities
+	- Encrypt column
+	- Encrypted identifier running_buddy2
+
+7.
+a) Full .bak restore
+
+8.
+i) encrpyted column? Yes (sales.customer)
+ii) one schema? Yes (sales)
+iii) one view? Yes
+
+9.
+a) Make database roles to be able to add multiple user to test databases to ensure that everything
+	works well before deploying the real information
+- Maybe once deployed ecrypting columns from users who need access to the table, but not to one 
+	section to avoid breaking security protocols. They may not have the authority to view a
+	certain column but the rest of the table they are allowed.
+b) I personally thinks its the best way to go for larger companies. My company that I work at
+	actually have a remote connection which everyone has their login for. If my computer were to 	be ruined or a virus hit the physical computer itself, the remote is safe and the whole company is not affected. Also if there is fear that once logged into the remote that it can spread. We can simply destory that computer and I can get a replacement the same day and login in as if nothing happened. Since all my files and programs are on the remote it does not matter the computer in which I am using to connect to it. The remote software however needs to be manually installed by the IT department and then you can login. Which also disables peoples from accessing the remote from whichever device they want. And if a breach happened, IT can locate the machine that was used to login to the remote and find the employee in which the computer belongs to.
